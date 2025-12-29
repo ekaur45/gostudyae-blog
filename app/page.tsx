@@ -11,7 +11,7 @@ const getImageUrl = (path: string | null) => {
 async function getPublishedPosts() {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
   try {
-    const response = await fetch(`${apiUrl}/api/posts`, { cache: 'no-store' });
+    const response = await fetch(`${apiUrl}/api/posts`, { next: { revalidate: 3600 } });
     if (!response.ok) {
       console.error('Failed to fetch posts:', response.statusText);
       return [];

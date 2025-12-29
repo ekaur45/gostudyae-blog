@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://gostudy.ae/blog
+
+# Sitemaps
+Sitemap: https://gostudy.ae/blog/sitemap.xml

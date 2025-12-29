@@ -2,6 +2,21 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { BiArrowBack } from "react-icons/bi";
+export async function generateStaticParams() {
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+
+    const res = await fetch(`${apiUrl}/api/posts`, {
+        next: { revalidate: 3600 },
+    });
+
+    if (!res.ok) return [];
+
+    const json = await res.json();
+
+    return (json.data || []).map((post: any) => ({
+        slug: post.slug,
+    }));
+}
 // Dynamic SEO metadata
 export async function generateMetadata({
     params,
@@ -13,7 +28,7 @@ export async function generateMetadata({
     const siteUrl = "https://www.gostudy.ae";
 
     const res = await fetch(`${apiUrl}/api/posts/${slug}`, {
-        cache: "no-store",
+        next: { revalidate: 3600 },
     });
 
     if (!res.ok) {
@@ -74,7 +89,7 @@ export async function generateMetadata({
 const fetchAPI = async (endpoint: string) => {
     const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
     try {
-        const res = await fetch(`${apiUrl}/api/${endpoint}`, { cache: 'no-store' });
+        const res = await fetch(`${apiUrl}/api/${endpoint}`, { next: { revalidate: 3600 } });
         if (!res.ok) return null;
         const json = await res.json();
         return json.data;
