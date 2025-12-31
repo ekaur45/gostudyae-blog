@@ -8,7 +8,7 @@ const getImageUrl = (path: string | null) => {
 export default function PostCard({ post }: { post: any }) {
     return (
         <article key={post.id} className="group flex flex-col h-full border border-white/10 rounded-2xl shadow-lg hover:shadow-xl transition-colors hover:bg-gradient-to-br from-[#0B1A2A] to-[#183758]/50">
-            <Link href={`/blog/${post.slug}`} className="relative block overflow-hidden rounded-2xl rounded-b-none bg-gray-800 aspect-[4/2]">
+            <Link href={`/${post.slug}`} className="relative block overflow-hidden rounded-2xl rounded-b-none bg-gray-800 aspect-[4/2]">
                 {post.featured_image ? (
                     <img
                         src={getImageUrl(post.featured_image)!}

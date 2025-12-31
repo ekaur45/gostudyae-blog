@@ -172,7 +172,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
                                     </div>
                                     <div>
                                         <p className="font-medium text-white">
-                                            {post.read_time || Math.ceil(post.body?.length / 800) || 5} min
+                                            {post.read_time || Math.ceil(post.body?.length / 800) || 5}
                                         </p>
                                         <p className="text-xs py-0.5 text-gray-500">Read Time</p>
                                     </div>
