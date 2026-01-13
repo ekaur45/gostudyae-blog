@@ -1,3 +1,4 @@
+import { REVALIDATE } from "@/app/abc";
 import PostCard from "@/app/components/post";
 import Link from "next/link";
 import { FaArrowLeft } from "react-icons/fa";
@@ -5,7 +6,7 @@ import { FaArrowLeft } from "react-icons/fa";
 async function getPublishedPosts(slug: string) {
     const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
     try {
-        const response = await fetch(`${apiUrl}/api/posts/tag/${slug}`, { cache: 'no-store' });
+        const response = await fetch(`${apiUrl}/api/posts/tag/${slug}`, { next: { revalidate: REVALIDATE } });
         if (!response.ok) {
             console.error('Failed to fetch posts:', response.statusText);
             return [];

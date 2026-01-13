@@ -7,11 +7,11 @@ export default function Footer() {
                 {/* Phone */}
                 <div className="flex-1 min-w-[220px] flex flex-col items-start">
                     <div className="flex items-center gap-2 mb-2">
-                        <FaPhone className="text-blue-400" size={20} />
+                        <FaPhone className="text-blue-400 rotate-90" size={20} />
                         <span className="text-blue-400 font-medium">Request a Call</span>
                     </div>
                     <span className="text-white max-lg:text-xs font-medium">
-                        +971585341673
+                        +971585593327
                     </span>
                 </div>
 

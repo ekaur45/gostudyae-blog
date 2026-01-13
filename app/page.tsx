@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { FaArrowRight } from "react-icons/fa";
 import PostCard from "./components/post";
-
+import { REVALIDATE } from "./abc";
+export const dynamic = 'force-dynamic';
 // Helper to construct full image URLs
 const getImageUrl = (path: string | null) => {
   if (!path) return null;
@@ -11,7 +12,7 @@ const getImageUrl = (path: string | null) => {
 async function getPublishedPosts() {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
   try {
-    const response = await fetch(`${apiUrl}/api/posts`, { cache: 'no-store' });
+    const response = await fetch(`${apiUrl}/api/posts`, { next: { revalidate: 60 } });
     if (!response.ok) {
       console.error('Failed to fetch posts:', response.statusText);
       return [];

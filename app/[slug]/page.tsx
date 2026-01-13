@@ -2,11 +2,13 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { BiArrowBack } from "react-icons/bi";
+import { REVALIDATE } from "../abc";
+export const dynamic = 'force-dynamic';
 export async function generateStaticParams() {
     const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
     const res = await fetch(`${apiUrl}/api/posts`, {
-        next: { revalidate: 3600 },
+        next: { revalidate: REVALIDATE }
     });
 
     if (!res.ok) return [];
@@ -25,10 +27,10 @@ export async function generateMetadata({
 }): Promise<Metadata> {
     const { slug } = await params;
     const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
-    const siteUrl = "https://www.gostudy.ae";
+    const siteUrl = "https://gostudy.ae";
 
     const res = await fetch(`${apiUrl}/api/posts/${slug}`, {
-        next: { revalidate: 3600 },
+        next: { revalidate: REVALIDATE }
     });
 
     if (!res.ok) {
@@ -41,7 +43,7 @@ export async function generateMetadata({
 
     const { data: post } = await res.json();
 
-    const canonicalUrl = `${siteUrl}/${slug}`;
+    const canonicalUrl = `${siteUrl}/blog/${slug}`;
     const ogImage =
         post?.featured_image
             ? post.featured_image.startsWith("http")
@@ -89,7 +91,7 @@ export async function generateMetadata({
 const fetchAPI = async (endpoint: string) => {
     const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
     try {
-        const res = await fetch(`${apiUrl}/api/${endpoint}`, { next: { revalidate: 3600 } });
+        const res = await fetch(`${apiUrl}/api/${endpoint}`, { next: { revalidate: REVALIDATE } });
         if (!res.ok) return null;
         const json = await res.json();
         return json.data;
@@ -256,7 +258,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
                                         <p className="text-gray-500 text-sm">No other posts found.</p>
                                     ) : (
                                         recentPosts.slice(0, 5).map((recent: any) => (
-                                            <a key={recent.id} href={`/${recent.slug}`} className="flex group items-start gap-4">
+                                            <Link key={recent.id} href={`/${recent.slug}`} className="flex group items-start gap-4">
                                                 <div className="flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden relative bg-gray-800 border border-white/5">
                                                     {recent.featured_image ? (
                                                         <img
@@ -277,7 +279,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
                                                         {new Date(recent.published_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                                                     </time>
                                                 </div>
-                                            </a>
+                                            </Link>
                                         ))
                                     )}
                                 </div>
@@ -314,14 +316,14 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
                             "name": "GoStudy",
                             "logo": {
                                 "@type": "ImageObject",
-                                "url": "https://www.gostudy.ae/logo.png",
+                                "url": "https://gostudy.ae/logo.png",
                             },
                         },
                         "datePublished": post.published_at,
                         "dateModified": post.updated_at || post.published_at,
                         "mainEntityOfPage": {
                             "@type": "WebPage",
-                            "@id": `https://www.gostudy.ae/${post.slug}`,
+                            "@id": `https://gostudy.ae/${post.slug}`,
                         },
                     }),
                 }}
